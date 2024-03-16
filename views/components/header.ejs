@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <title>Shery Buddy</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.27.0/min/vs/loader.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <nav class="bg-[#d3f3ec]">
+        <div class="px-4 py-3 flex items-center justify-between w-full shadow-md">
+            <div class="w-10 h-10 ml-4">
+                <a href="/"><img src="../images/icon.png" alt="logo"></a>
+            </div>
+            <% if (log) { %>
+                <!-- logged in user only -->
+                <div class=" flex pl-5 flex-row justify-between w-full">
+                    <div class="flex flex-row gap-4">
+
+                        <div class="flex items-center my-1 hover:bg-gray-100 ">
+                            <i class="ri-health-book-line mx-1"></i></i><a href="/home" class="px-2 py-2 text-sm text-gray-700 hover:text-[#0d9276]">Shery Buddy</a>
+                        </div>
+                    </div>
+                    <div class="flex items-center flex-end relative cursor-pointer overflow-hidden" onclick="menuToggle();">
+                        <a id=1  type="button" name="button">
+                          <img src="../images/user.png" alt="user-icon" class="w-10 h-10 mr-8">
+                        </a>
+                    </div>
+                    <div class="menu absolute hidden right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg" role="menu" aria-orientation="vertical">
+                        <div class="flex items-center my-1 hover:bg-gray-100 transition duration-150">
+                            <i class="ri-user-3-line mx-2"></i><a href="/profile" class="px-4 py-2 text-sm text-gray-700 hover:text-[#0d9276]" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
+                        </div>
+                        
+                        <div class="flex items-center my-1 hover:bg-gray-100 transition duration-150">
+                            <i class="ri-logout-box-line mx-2"></i>
+                            <form action="/logout" method="POST" style="display: inline;">
+                            <button class="px-4 py-2 text-sm text-gray-700 hover:text-[#0d9276]" role="menuitem" tabindex="-1" id="user-menu-item-2">Logout</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+             
+           
+           <% } else { %>
+                <!-- Logout user -->
+         
+            <!-- Menu button for mobile screen -->
+            <button class="menu-button md:hidden block" aria-label="Open Menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+            <!-- <div class="dropdown-menu hidden flex-col space-y-4 mt-4 md:mt-0 md:flex md:flex-row md:space-y-0 md:space-x-4 md:relative">
+                <a href="/about" class="text-[#0D9276] opacity-75 hover:border-b-2 hover:border-[#0D9276] hover:opacity-100 px-3 py-2 text-sm font-medium">About</a>
+                <a href="/services" class="text-[#0D9276] opacity-75 hover:border-b-2 hover:border-[#0D9276] hover:opacity-100 px-3 py-2 text-sm font-medium">Services</a>
+                <a href="/contact" class="text-[#0D9276] opacity-75 hover:border-b-2 hover:border-[#0D9276] hover:opacity-100 px-3 py-2 text-sm font-medium">Contact Us</a>
+            </div> -->
+            <div class="flex space-x-4 mr-4">
+                <a href="/login" class="bg-[#f2f2f2] text-[#0D9276] hover:bg-[#0D9276] hover:text-[#f2f2f2] rounded-lg px-3 py-2 text-sm font-medium">Login</a>
+                <a href="/register" class="bg-[#0D9276] text-white hover:bg-[#f2f2f2] hover:text-[#0D9276] hover:border-[#0D9276] hover:border-2 rounded-lg px-3 py-2 text-sm font-medium">Sign Up</a>
+            </div>
+        </div>
+        <% } %>
+        <script>
+            function menuToggle() {
+                const toggleMenu = document.querySelector(".menu");
+                toggleMenu.classList.toggle("hidden");
+            }
+            document.addEventListener('DOMContentLoaded', function () {
+                const menuButton = document.querySelector('.menu-button');
+                const mobileMenu = document.querySelector('.dropdown-menu');
+    
+                menuButton.addEventListener('click', function () {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            });
+        </script>
+        
+     </nav>       
+    

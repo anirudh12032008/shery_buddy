@@ -1,0 +1,104 @@
+<%- include ("./components/header.ejs") %>
+
+<div class="flex w-full min-h-full">
+  <div class="w-1/2">
+    <h2 class="text-3xl pl-10 font-bold my-3"><%= problem.title %></h2>
+    <p class="pl-10"><strong>Difficulty:</strong> <%= problem.difficulty %></p>
+    <p class="pl-10"><strong>Category:</strong> <%= problem.category %></p>
+    <div><%- problem.statement %></div>
+  </div>
+  <div class="w-1/2">
+    <label for="language">Select Language:</label>
+    <select id="language">
+      <option value="javascript">JavaScript</option>
+      <option value="python">Python</option>
+      <option value="java">Java</option>
+    </select>
+    <div id="editor" class="h-[70vh]"></div>
+    <button
+      id="submitBtn"
+      class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+    >
+      Submit
+    </button>
+  </div>
+</div>
+
+<script>
+  require.config({
+    paths: {
+      vs: "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.27.0/min/vs",
+    },
+  });
+  require(["vs/editor/editor.main"], function () {
+    var languageSelector = document.getElementById("language");
+    var editor = monaco.editor.create(document.getElementById("editor"), {
+      value: getDefaultCode(languageSelector.value),
+      language: languageSelector.value,
+      theme: "vs-dark",
+    });
+
+    languageSelector.addEventListener("change", function () {
+      editor.setValue(getDefaultCode(languageSelector.value));
+      monaco.editor.setModelLanguage(editor.getModel(), languageSelector.value);
+    });
+
+    document.getElementById("submitBtn").addEventListener("click", function () {
+      var code = editor.getValue();
+      console.log(code);
+      var postData = {
+        clientId: "8369fa37b59fde0f91e45dbb91cc0223",
+        clientSecret:
+          "b6299b0b7fe1d90d927037ede19dcf4b902e668271a7ac7b03233f8d5e3e3b7d",
+        script: code,
+        language: "python3",
+      };
+
+      var url = "/execute";
+
+      var options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(postData),
+      };
+
+      fetch(url, options)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("POST request successful");
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error(
+            "There was a problem with the POST request:",
+            error.message
+          );
+        });
+    });
+
+    function getDefaultCode(language) {
+      switch (language) {
+        case "javascript":
+          return `function fun(A){
+    // Type your JavaScript code here...
+}`;
+        case "python":
+          return `def fun(A):
+    # Type your Python code here...`;
+        case "java":
+          return "// Type your Java code here...";
+        default:
+          return "// Type your Code here...";
+      }
+    }
+  });
+</script>
+
+<%- include ("./components/footer.ejs") %>
