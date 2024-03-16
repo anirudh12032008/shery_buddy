@@ -24,6 +24,7 @@ mongoose.connect(process.env.URL, { useNewUrlParser: true, useUnifiedTopology: t
 app.use(bodyParser.json());
 app.use(session({ secret: 'ani', resave: false, saveUninitialized: true }));
 
+// User Schema
 const userSchema = new mongoose.Schema({
     username: {
       type: String,
@@ -33,6 +34,7 @@ const userSchema = new mongoose.Schema({
     fullname: String,
     password: String,
 });
+// Problem Schema
 const probSchema = new mongoose.Schema({
   id: String,
 	title: String,
@@ -47,6 +49,7 @@ const probSchema = new mongoose.Schema({
   hint: String
 });
 
+// Pre processing for password
 userSchema.pre('save', async function (next) {
     const user = this;
     if (user.isModified('password')) {
@@ -54,8 +57,10 @@ userSchema.pre('save', async function (next) {
     }
     next();
   });
-  const User = mongoose.model('User', userSchema);
-  const Prob = mongoose.model('Prob', probSchema);
+
+// Model Initialization
+const User = mongoose.model('User', userSchema);
+const Prob = mongoose.model('Prob', probSchema);
 
 
 // isLogin
@@ -107,6 +112,8 @@ app.get('/problems/:id', isLogin, async (req, res) => {
 app.get('/register', async(req,res)=>{
     res.render('register.ejs', {log: 0})
 })
+
+
 // home
 app.get('/home',isLogin, async(req,res)=>{
   let problems = await Prob.find({ batches: req.session.user.batch });
@@ -115,10 +122,13 @@ app.get('/home',isLogin, async(req,res)=>{
   } else{
     res.render('home', {user: req.session.user, log: 1, problems: ['none']})
   }})
+
+
 // login
 app.get('/login', async(req,res)=>{
     res.render('login.ejs', {log: 0})
 })
+
 // profile
 app.get('/profile', isLogin, (req, res) => {
   res.render('profile', { user: req.session.user , log: 1});
@@ -126,6 +136,8 @@ app.get('/profile', isLogin, (req, res) => {
 
 
 // POST Routes
+
+
 // register
 app.post('/register', async (req, res) => {
     try {
@@ -145,6 +157,8 @@ app.post('/register', async (req, res) => {
       res.status(500).json({ message: 'Error creating user' });
     }
   });
+
+
 // login
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
@@ -169,6 +183,7 @@ app.post('/login', async (req, res) => {
     }
 });
 
+
 // logout
 app.post('/logout', (req, res) => {
     req.session.destroy(err => {
@@ -179,36 +194,36 @@ app.post('/logout', (req, res) => {
     });
   });
 
-  app.post('/execute', async (req, res) => {
-    try {
-      console.log("Execute req came");
-        const varData = req.body;
+// Execute (JDOODLE)
+app.post('/execute', async (req, res) => {
+  try {
+    console.log("Execute req came");
+      const varData = req.body;
 
-        const response = await fetch('https://api.jdoodle.com/v1/execute', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(varData)
-        });
+      const response = await fetch('https://api.jdoodle.com/v1/execute', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(varData)
+      });
 
-        if (!response.ok) {
-            throw new Error('Failed to fetch data from XYZ API');
-        }
+      if (!response.ok) {
+          throw new Error('Failed to fetch data from XYZ API');
+      }
 
-        const result = await response.json();
-        console.log(result);
-        res.json(result);
-    } catch (error) {
-        // If an error occurs, send an error response to the frontend
-        console.error('Error processing data:', error.message);
-        res.status(500).json({ error: 'An error occurred while processing the data' });
-    }
+      const result = await response.json();
+      console.log(result);
+      res.json(result);
+  } catch (error) {
+      console.error('Error processing data:', error.message);
+      res.status(500).json({ error: 'An error occurred while processing the data' });
+  }
 });
 
 
 
-// server start
+// Server start
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
