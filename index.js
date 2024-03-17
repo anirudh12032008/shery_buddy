@@ -159,6 +159,44 @@ app.get('/files/:id', isLogin, async (req, res) => {
   }
 });
 
+//  /leaderboard/:id
+app.get('/leaderboard/:id', isLogin, async (req, res) => {
+  try {
+    const batch = req.params.id;
+    
+    const usersWithBatch = await User.find({ batches: batch })
+    .sort({ points: -1 })
+    .exec();
+    if (!usersWithBatch) {
+      return res.status(404).json({ message: 'No user' });
+    }
+
+    res.render('leaderboard', { user: req.session.user, log: 1, users: usersWithBatch});
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// /user/:id
+app.get('/user/:id', async (req, res) => {
+  try {
+      const userId = req.params.id;
+      const user = await User.findOne({username:userId});
+      const problems = await Prob.find();
+
+      if (!user) {
+          return res.status(404).send('User not found');
+      }
+
+      res.render('userdets', { user, problems,log: 1 });
+  } catch (err) {
+      console.error('Error fetching user details:', err);
+      res.status(500).send('Internal Server Error');
+  }
+});
+
+
 
 
 // register
@@ -191,8 +229,9 @@ app.get('/home',isLogin, async(req,res)=>{
 
 // files
 app.get('/files',isLogin, async(req,res)=>{
-  let files = await File.find({ batch: { $in: req.session.user.batches } });
-  if (files != []){
+  let files = await File.find({ batch: { $in: req.session.user.batches } })
+  .sort({ createdAt: -1 });
+if (files != []){
     res.render('files', {user: req.session.user, log: 1, files: files})
   } else{
     res.render('files', {user: req.session.user, log: 1, files: ['none']})
@@ -207,6 +246,12 @@ app.get('/login', async(req,res)=>{
 // profile
 app.get('/profile', isLogin, (req, res) => {
   res.render('profile', { user: req.session.user , log: 1});
+});
+
+
+// leaderboards
+app.get('/leaderboards', isLogin, (req, res) => {
+  res.render('leaderboards', { user: req.session.user , log: 1});
 });
 
 

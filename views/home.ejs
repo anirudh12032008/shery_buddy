@@ -8,30 +8,64 @@
 
 
 <div class="w-full flex justify-center px-20">
-  <table class="table-auto w-full ">
+  <table class="table-auto   w-full ">
     <thead>
       <tr>
-        <th class="px-4 py-2 text-left">Status</th>
-        <th class="px-4 py-2 text-left">Title</th>
-        <th class="px-4 py-2 text-left">Difficulty</th>
-        <th class="px-4 py-2 text-left">Category</th>
+        <th
+          class="py-2 px-4 bg-gray-200 text-left text-xs font-bold text-gray-900 uppercase tracking-wider"
+        >
+          Status
+        </th>
+        <th
+          class="py-2 px-4 bg-gray-200 text-left text-xs font-bold text-gray-900 uppercase tracking-wider"
+        >
+          Title
+        </th>
+        
+        <th
+          class="py-2 px-4 bg-gray-200 text-left text-xs font-bold text-gray-900 uppercase tracking-wider"
+        >
+          Difficulty
+        </th>
+        <th
+          class="py-2 px-4 bg-gray-200 text-left text-xs font-bold text-gray-900 uppercase tracking-wider"
+        >
+          Category
+        </th>
       </tr>
     </thead>
     <tbody>
       <% problems.forEach((problem) => { %>
       <tr key="<%= problem.id %>">
-        <td class="px-4 py-2 text-left">
+        <td class="px-4  border-b border-gray-200 text-lg py-2 text-left">
           <% if (user.solved.includes(problem.id)) { %>
             &#10004; <!-- Tick mark -->
           <% } else { %>
             ❌ <!-- Cross mark -->
           <% } %>
         </td>
-        <td class="px-4 py-2 text-left">
-          <a href="/problems/<%= problem.id %>" class="text-blue-500 hover:underline"><%= problem.title %></a>
+        <td class=" text-left py-2 px-4 border-b border-gray-200 text-lg">
+          <a href="/problems/<%= problem.id %>" class="text-blue-500 py-2 px-4  hover:underline">
+            <%= problem.title %></a>
         </td>
-        <td class="px-4 py-2 text-left"><%= problem.difficulty %></td>
-        <td class="px-4 py-2 text-left"><%= problem.category %></td>
+        <td class="py-2 px-4 border-b border-gray-200 text-lg">
+          <span class="
+              <% if (problem.difficulty === 'easy') { %>
+                  text-green-500
+              <% } else if (problem.difficulty === 'medium') { %>
+                  text-yellow-500
+              <% } else if (problem.difficulty === 'hard') { %>
+                  text-red-500
+              <% } else { %>
+                  text-gray-500
+              <% } %>
+          ">
+              <%= problem.difficulty %>
+          </span>
+      </td>
+      
+          <td class="py-2 px-4 border-b border-gray-200 text-lg">
+            <%= problem.category %></td>
       </tr>
       <% }) %>
     </tbody>

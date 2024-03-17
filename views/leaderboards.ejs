@@ -1,0 +1,17 @@
+<%- include ("./components/header.ejs") %>
+
+<div class="flex justify-center items-center">
+  <div class="flex mt-20 flex-wrap flex-col w-4/6 justify-center">
+    <h1 class="text-3xl font-medium">View Leaderboard of:-</h1>
+    <% user.batches.forEach(batch => { %>
+    <a
+      href="/leaderboard/<%= batch %>"
+      class="m-2 bg-blue-500 w-1/2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+    >
+      <%= batch %>
+    </a>
+    <% }); %>
+  </div>
+</div>
+
+<%- include ("./components/footer.ejs") %>
