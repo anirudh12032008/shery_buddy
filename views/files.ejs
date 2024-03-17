@@ -1,0 +1,56 @@
+<%- include ("./components/header.ejs") %>
+<% if (user) { %>
+<div class="py-6 px-8">
+  <h1 class="text-3xl font-semibold">Hello <%= user.fullname %>, you are currently in <%= user.batches.join(', ') %></h1>
+ 
+</div>
+
+
+
+<div class="w-full flex justify-center px-20">
+  <table class="table-auto w-full ">
+    <thead>
+      <tr>
+        <th class="px-4 py-2 text-left">File Name</th>
+        <th class="px-4 py-2 text-left">Batch</th>
+        <th class="px-4 py-2 text-left">Author</th>
+        <th class="px-4 py-2 text-left">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+        <% files.forEach((file) => { %>
+            <!-- <a href="/files/<%= file.id %>" class="text-blue-500 hover:underline">    </a> -->
+
+        <tr onclick="window.location='/files/<%= file.id %>'" style="cursor: pointer;" key="<%= file.id %>">
+          <td class="px-4 py-2 text-left">
+            <%= file.filename %>
+          </td>
+          <td class="px-4 py-2 text-left">
+            <%= file.batch %>
+          </td>
+          <td class="px-4 py-2 text-left">
+            <%= file.author %>
+          </td>
+          <td class="px-4 py-2 text-left">
+            <%= new Date(file.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) %>
+        </td>
+        </tr>
+        <% }) %>
+      </tbody>
+   
+    
+  </table>
+</div>
+
+  
+
+
+
+
+</div>
+    
+  <% } else { %>
+    <p>User not logged in. Please <a href="/login">login</a>.</p>
+  <% } %>
+
+<%- include ("./components/footer.ejs") %>

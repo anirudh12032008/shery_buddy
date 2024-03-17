@@ -10,8 +10,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.27.0/min/vs/loader.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="/stylesheets/style.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
 </head>
 <body>
     <nav class="bg-[#d3f3ec]">
@@ -25,7 +27,10 @@
                     <div class="flex flex-row gap-4">
 
                         <div class="flex items-center my-1 hover:bg-gray-100 ">
-                            <i class="ri-health-book-line mx-1"></i></i><a href="/home" class="px-2 py-2 text-sm text-gray-700 hover:text-[#0d9276]">Shery Buddy</a>
+                            <a href="/home" class="px-2 py-2  text-gray-700 font-bold text-xl hover:text-[#0d9276]">Problems</a>
+                        </div>
+                        <div class="flex items-center my-1 hover:bg-gray-100 ">
+                            <a href="/files" class="px-2 py-2  text-gray-700 font-bold text-xl hover:text-[#0d9276]">Files</a>
                         </div>
                     </div>
                     <div class="flex items-center flex-end relative cursor-pointer overflow-hidden" onclick="menuToggle();">
@@ -70,15 +75,7 @@
             function menuToggle() {
                 const toggleMenu = document.querySelector(".menu");
                 toggleMenu.classList.toggle("hidden");
-            }
-            document.addEventListener('DOMContentLoaded', function () {
-                const menuButton = document.querySelector('.menu-button');
-                const mobileMenu = document.querySelector('.dropdown-menu');
-    
-                menuButton.addEventListener('click', function () {
-                    mobileMenu.classList.toggle('hidden');
-                });
-            });
+            }   
         </script>
         
      </nav>       

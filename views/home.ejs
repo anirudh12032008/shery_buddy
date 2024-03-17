@@ -1,11 +1,11 @@
 <%- include ("./components/header.ejs") %>
 <% if (user) { %>
 <div class="py-6 px-8">
-  <h1 class="text-3xl font-semibold">Welcome <%= user.fullname %>,</h1>
+  <h1 class="text-3xl font-semibold">Welcome <%= user.fullname %>, you are currently in <%= user.batches.join(', ') %></h1>
  
 </div>
 
-  
+
 
 <div class="w-full flex justify-center px-20">
   <table class="table-auto w-full ">
@@ -21,8 +21,11 @@
       <% problems.forEach((problem) => { %>
       <tr key="<%= problem.id %>">
         <td class="px-4 py-2 text-left">
-          ❌
-          <!-- {solvedProblems.includes(problem.id) && <BsCheckCircle fontSize="18" width='18' />} -->
+          <% if (user.solved.includes(problem.id)) { %>
+            &#10004; <!-- Tick mark -->
+          <% } else { %>
+            ❌ <!-- Cross mark -->
+          <% } %>
         </td>
         <td class="px-4 py-2 text-left">
           <a href="/problems/<%= problem.id %>" class="text-blue-500 hover:underline"><%= problem.title %></a>
@@ -32,33 +35,13 @@
       </tr>
       <% }) %>
     </tbody>
+    
   </table>
 </div>
 
+  
 
 
-
-<div class="container mb-20 grid grid-cols-2   h-screen ">
-  <div class="p-5 box-border h-full bg-gray-200 overflow-auto" id="A">
-    <h2>p-5 box-</h2>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>
-  </div>
-
-  <div class="p-5 box-border bg-gray-200" id="C">
-    <h2>p-5 box-border C</h2>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>
-  </div>
 
 
 </div>

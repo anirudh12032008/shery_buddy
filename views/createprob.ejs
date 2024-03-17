@@ -1,0 +1,112 @@
+<%- include ("./components/header.ejs") %>
+
+    <div class="w-full bg-[#e8fdf8]">
+      <div class="grid  py-5 px-28">
+        <div class="justify-center bg-white rounded-l-xl p-12 shadow-[-10px_15px_25px_5px_rgba(0,0,0,0.25)]">
+          <form id="form1">
+            <!-- Problem Information -->
+            <h2 class="text-3xl text-[#0D9276] mb-10 ">Problem Information</h2>
+            <!-- ID -->
+            <div class=" h-12 mt-3 mb-6 border-gray-400 border-b-[1px] items-center px-3 py-2">
+              <input class="w-full  enabled:bg-none enabled:border-none enabled:outline-none ml-2" type="text" id="id"
+                name="id" placeholder="ID" required>
+            </div>
+            <!-- Title -->
+            <div class="flex h-12 mt-3 mb-6 border-gray-400 border-b-[1px] items-center px-3 py-2">
+              <input class="w-full enabled:bg-none enabled:border-none enabled:outline-none ml-2" type="text" id="title"
+                name="title" placeholder="Title" required>
+            </div>
+            <!-- Difficulty -->
+            <div class="flex h-12 mt-3 mb-6 border-gray-400 border-b-[1px] items-center px-3 py-2">
+
+              <label for="difficulty" class="">Difficulty: </label>
+              <select name="difficulty" id="difficulty">
+                <option value="easy">easy</option>
+                <option value="medium">medium</option>
+                <option value="hard">hard</option>
+              </select>
+            </div>
+            <!-- points -->
+            <div class="flex h-12 mt-3 mb-6 border-gray-400 border-b-[1px] items-center px-3 py-2">
+              <input class="w-full enabled:bg-none enabled:border-none enabled:outline-none ml-2" type="number" id="points"
+                name="points" placeholder="points" required>
+            </div>
+            <!-- category -->
+            <div class="flex h-12 mt-3 mb-6 border-gray-400 border-b-[1px] items-center px-3 py-2">
+              <input class="w-full enabled:bg-none enabled:border-none enabled:outline-none ml-2" type="text" id="category"
+                name="category" placeholder="category" required>
+            </div>
+            <!-- Languages -->
+            <div class="flex h-12 mt-3 mb-6 border-gray-400 border-b-[1px] items-center px-3 py-2">
+              <input class="w-full enabled:bg-none enabled:border-none enabled:outline-none ml-2" type="text" id="languages"
+                name="languages" placeholder="languages (comma seperated)" required>
+            </div>
+            <!-- hints -->
+            <div class="flex h-12 mt-3 mb-6 border-gray-400 border-b-[1px] items-center px-3 py-2">
+              <input class="w-full enabled:bg-none enabled:border-none enabled:outline-none ml-2" type="text" id="hints"
+                name="hints" placeholder="hints" required>
+            </div>
+            <!-- statement -->
+            <div class="flex h-12 mt-3 mb-6 border-gray-400 border-b-[1px] items-center px-3 py-2">
+              <input class="w-full enabled:bg-none enabled:border-none enabled:outline-none ml-2" type="text" id="statement"
+                name="statement" placeholder="statement" required>
+            </div>
+            <!-- tc1 -->
+            <div class="flex h-12 mt-3 mb-6 border-gray-400 border-b-[1px] items-center px-3 py-2">
+              <input class="w-full enabled:bg-none enabled:border-none enabled:outline-none ml-2" type="text" id="tc1"
+                name="tc1" placeholder="tc1" required>
+            </div>
+            <!-- tc1o -->
+            <div class="flex h-12 mt-3 mb-6 border-gray-400 border-b-[1px] items-center px-3 py-2">
+              <input class="w-full enabled:bg-none enabled:border-none enabled:outline-none ml-2" type="text" id="tc1o"
+                name="tc1o" placeholder="tc1o" required>
+            </div>
+            <!-- tc2 -->
+            <div class="flex h-12 mt-3 mb-6 border-gray-400 border-b-[1px] items-center px-3 py-2">
+              <input class="w-full enabled:bg-none enabled:border-none enabled:outline-none ml-2" type="text" id="tc2"
+                name="tc2" placeholder="tc2" required>
+            </div>
+            <!-- tc2o -->
+            <div class="flex h-12 mt-3 mb-6 border-gray-400 border-b-[1px] items-center px-3 py-2">
+              <input class="w-full enabled:bg-none enabled:border-none enabled:outline-none ml-2" type="text" id="tc2o"
+                name="tc2o" placeholder="tc2o" required>
+            </div>
+            <!-- Admin Secret -->
+            <div class="flex h-12 mt-3 mb-6 border-gray-400 border-b-[1px] items-center px-3 py-2">
+              <input class="w-full enabled:bg-none enabled:border-none enabled:outline-none ml-2" type="text" id="admin"
+                name="admin" placeholder="Admin Secret" required>
+            </div>
+
+            <div
+              class="border-2 mt-2 w-full px-3 py-2 mb-3 flex justify-center items-center bg-[#0D9276] text-white font-semibold rounded-full ">
+              <input type="submit" name="create" value="Create">
+            </div>
+
+          </form>
+        </div>
+    
+      </div>
+    </div>
+
+
+      <script>
+        $(document).ready(function () {
+
+          $('#form1').submit(function (event) {
+            event.preventDefault();
+            const combinedData = $('#form1').serializeArray()
+            $.ajax({
+              url: '/createprob',
+              type: 'POST',
+              data: combinedData,
+              success: function (response) {
+                window.location.href = '/createprob';
+              },
+              error: function (error) {
+                console.error('Error creating problem:', error);
+              }
+            });
+          });
+        });
+      </script>
+<%- include ("./components/footer.ejs") %>

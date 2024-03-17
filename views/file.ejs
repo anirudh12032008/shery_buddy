@@ -1,0 +1,52 @@
+<%- include ("./components/header.ejs") %>
+
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="p-4 border-b">
+            <h1 class="text-2xl font-bold text-gray-800">File Details</h1>
+        </div>
+        <div class="p-4">
+            <div class="flex justify-between items-center mb-4">
+                <div>
+                    <p class="text-lg font-semibold text-gray-800"><%= file.filename %></p>
+                    <p class="text-sm text-gray-600">
+                        Batch: <%= file.batch %> | 
+                        Author: <%= file.author %> | 
+                        Date: <%= new Date(file.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) %>
+                    </p>
+                </div>
+                    <div class="text-right">
+                        <button id="copyButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="copyToFileContent()">
+                            Copy
+                        </button>
+                        
+                    </div>
+            </div>
+            <div class="bg-gray-200 p-4 rounded-lg">
+                <code id="code" class="whitespace-pre-wrap"><%= file.content %></code>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function copyToFileContent() {
+        const fileContent = `<%= file.content %>`;
+
+        // Copy the file content to the clipboard
+        navigator.clipboard.writeText(fileContent)
+            .then(() => {
+                // Change button text to indicate successful copy
+                const copyButton = document.getElementById('copyButton');
+                copyButton.textContent = 'Copied!';
+            })
+            .catch(err => {
+                console.error('Failed to copy:', err);
+            });
+    }
+    const codeElement = document.getElementById('code');
+    const codeLines = codeElement.innerText.split('\n');
+    const numberedCode = codeLines.map((line, index) => `<span class="text-gray-500 mr-4 ml-1">${index + 1}</span>${line}`).join('\n');
+    codeElement.innerHTML = numberedCode;
+</script>
+
+<%- include ("./components/footer.ejs") %>

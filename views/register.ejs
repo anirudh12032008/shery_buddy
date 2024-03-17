@@ -8,28 +8,33 @@
             <h2 class="text-3xl text-[#0D9276] mb-10 ">Account Information</h2>
             <!-- User Name -->
             <div class="flex h-12 mt-3 mb-6 border-gray-400 border-b-[1px] items-center px-3 py-2">
-              <input class="enabled:bg-none enabled:border-none enabled:outline-none ml-2" type="text" id="username"
+              <input class="w-full enabled:bg-none enabled:border-none enabled:outline-none ml-2" type="text" id="username"
                 name="username" placeholder="User Name" required>
             </div>
             <!-- Full Name -->
             <div class="flex h-12 mt-3 mb-6 border-gray-400 border-b-[1px] items-center px-3 py-2">
-              <input class="enabled:bg-none enabled:border-none enabled:outline-none ml-2" type="text" id="fullname"
+              <input class="w-full enabled:bg-none enabled:border-none enabled:outline-none ml-2" type="text" id="fullname"
                 name="fullname" placeholder="Full Name" required>
             </div>
             <!-- Batch Name -->
             <div class="flex h-12 mt-3 mb-6 border-gray-400 border-b-[1px] items-center px-3 py-2">
-              <input class="enabled:bg-none enabled:border-none enabled:outline-none ml-2" type="text" id="batch"
-                name="batch" placeholder="Batch Name" required>
+              <input class="w-full enabled:bg-none enabled:border-none enabled:outline-none ml-2" type="text" id="batches"
+                name="batches" placeholder="Batches Name (comma seperated)" required>
+            </div>
+            <!-- Languages -->
+            <div class="flex h-12 mt-3 mb-6 border-gray-400 border-b-[1px] items-center px-3 py-2">
+              <input class="w-full enabled:bg-none enabled:border-none enabled:outline-none ml-2" type="text" id="languages"
+                name="languages" placeholder="languages (comma seperated)" required>
             </div>
             <!-- Admin Secret -->
             <div class="flex h-12 mt-3 mb-6 border-gray-400 border-b-[1px] items-center px-3 py-2">
-              <input class="enabled:bg-none enabled:border-none enabled:outline-none ml-2" type="text" id="admin"
+              <input class="w-full enabled:bg-none enabled:border-none enabled:outline-none ml-2" type="text" id="admin"
                 name="admin" placeholder="Admin Secret" required>
             </div>
           
             <!-- Password -->
             <div class="flex h-12 mt-3 mb-6 border-gray-400 border-b-[1px] items-center px-3 py-2">
-              <input class="enabled:bg-none enabled:border-none enabled:outline-none ml-2" type="password" id="password"
+              <input class="w-full enabled:bg-none enabled:border-none enabled:outline-none ml-2" type="password" id="password"
                 name="password" placeholder="Password" required>
             </div>
             <div
@@ -56,7 +61,6 @@
               type: 'POST',
               data: combinedData,
               success: function (response) {
-                console.log('User created:', response);
                 window.location.href = '/profile';
               },
               error: function (error) {

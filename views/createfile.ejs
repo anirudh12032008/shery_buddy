@@ -1,0 +1,78 @@
+<%- include ("./components/header.ejs") %>
+
+    <div class="w-full bg-[#e8fdf8]">
+      <div class="grid  py-5 px-28">
+        <div class="justify-center bg-white rounded-l-xl p-12 shadow-[-10px_15px_25px_5px_rgba(0,0,0,0.25)]">
+          <form id="form1">
+            <!-- Problem Information -->
+            <h2 class="text-3xl text-[#0D9276] mb-10 ">File Information</h2>
+            <!-- ID -->
+            <div class=" h-12 mt-3 mb-6 border-gray-400 border-b-[1px] items-center px-3 py-2">
+              <input class="w-full  enabled:bg-none enabled:border-none enabled:outline-none ml-2" type="text" id="id"
+                name="id" placeholder="ID" required>
+            </div>
+            <!-- filename -->
+            <div class="flex h-12 mt-3 mb-6 border-gray-400 border-b-[1px] items-center px-3 py-2">
+              <input class="w-full enabled:bg-none enabled:border-none enabled:outline-none ml-2" type="text" id="filename"
+                name="filename" placeholder="filename" required>
+            </div>
+            <!-- content -->
+            <div class="flex h-12 mt-6-3 mb-12 border-gray-400 border-b-[1px] items-center px-3 py-2">
+              <label for="content">Content: </label>
+              <textarea class="w-full  ml-2" type="text" id="content"
+                name="content" placeholder="content" required></textarea>
+            </div>
+            <!-- author -->
+            <div class="flex h-12 mt-3 mb-6 border-gray-400 border-b-[1px] items-center px-3 py-2">
+              <input class="w-full enabled:bg-none enabled:border-none enabled:outline-none ml-2" type="text" id="author"
+                name="author" placeholder="author" required>
+            </div>
+            
+            <!-- batch -->
+            <div class="flex h-12 mt-3 mb-6 border-gray-400 border-b-[1px] items-center px-3 py-2">
+              <input class="w-full enabled:bg-none enabled:border-none enabled:outline-none ml-2" type="text" id="batch"
+                name="batch" placeholder="batch" required>
+            </div>
+            <!-- createdAt -->
+            <div class="flex h-12 mt-3 mb-6 border-gray-400 border-b-[1px] items-center px-3 py-2">
+              <input class="w-full enabled:bg-none enabled:border-none enabled:outline-none ml-2" type="date" id="createdAt"
+                name="createdAt" placeholder="createdAt (optional )" >
+            </div>
+            
+            <!-- Admin Secret -->
+            <div class="flex h-12 mt-3 mb-6 border-gray-400 border-b-[1px] items-center px-3 py-2">
+              <input class="w-full enabled:bg-none enabled:border-none enabled:outline-none ml-2" type="text" id="admin"
+                name="admin" placeholder="Admin Secret" required>
+            </div>
+
+            
+              <input class="border-2 mt-2 w-full px-3 py-2 mb-3 flex justify-center items-center bg-[#0D9276] text-white font-semibold rounded-full " type="submit" name="create" value="Create">
+
+          </form>
+        </div>
+    
+      </div>
+    </div>
+
+
+      <script>
+        $(document).ready(function () {
+
+          $('#form1').submit(function (event) {
+            event.preventDefault();
+            const combinedData = $('#form1').serializeArray()
+            $.ajax({
+              url: '/createfile',
+              type: 'POST',
+              data: combinedData,
+              success: function (response) {
+                window.location.href = '/createfile';
+              },
+              error: function (error) {
+                console.error('Error creating file:', error);
+              }
+            });
+          });
+        });
+      </script>
+<%- include ("./components/footer.ejs") %>

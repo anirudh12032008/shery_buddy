@@ -1,30 +1,73 @@
 <%- include ("./components/header.ejs") %>
 
-<div class="flex w-full min-h-full">
+<div class="flex w-[95vw] min-h-full">
   <div class="w-1/2">
-    <h2 class="text-3xl pl-10 font-bold my-3"><%= problem.title %></h2>
+    <h2 class="text-4xl mt-5 pl-10 font-bold my-3"><%= problem.title %></h2>
     <p class="pl-10"><strong>Difficulty:</strong> <%= problem.difficulty %></p>
     <p class="pl-10"><strong>Category:</strong> <%= problem.category %></p>
-    <div><%- problem.statement %></div>
+    <p class="pl-10"><strong>Points:</strong> <%= problem.points %></p>
+    <button onclick="toggleHint()" class="hint-button pl-10 font-medium text-lg">Hint <i class="ri-arrow-down-s-line"></i> </button>
+    <div id="hint" class="pl-10 hint-text" style="display: none;"><%= problem.hints %></div>
+    
+        <div><%- problem.statement %></div>
   </div>
-  <div class="w-1/2">
-    <label for="language">Select Language:</label>
+  <div class="pt-5 w-1/2">
+    <label class="" for="language">Select Language:</label>
     <select id="language">
-      <option value="javascript">JavaScript</option>
-      <option value="python">Python</option>
-      <option value="java">Java</option>
+      <% user.languages.forEach(function(language) { %>
+      <option value="<%= language.toLowerCase() %>"><%= language %></option>
+      <% }); %>
     </select>
-    <div id="editor" class="h-[70vh]"></div>
+    <div id="editor" class="h-[55vh]"></div>
     <button
       id="submitBtn"
-      class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      class="mt-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
     >
       Submit
     </button>
+
+    <div>
+      <div id="result" class="hidden mt-1 border-l-4 shadow-md p-4">
+        <p class="text-xl font-medium">
+          Results:
+        </p>
+<pre>
+Test Cases:
+<%= problem.tc1 %>
+<%= problem.tc2 %>
+</pre>
+        <pre>
+Expected Output:
+<%= problem.tc1o %>
+<%= problem.tc2o %>
+      </pre>
+
+        Output: 
+          <pre><div id="out"></div></pre>
+      </div>
+    </div>
   </div>
 </div>
 
+
+
+<script
+  src="https://cdn.jsdelivr.net/gh/MarketingPipeline/Code-Runner-Web-Component@main/dist/code-runner-wc.min.js"
+  defer
+></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.2/underscore-min.js"></script>
 <script>
+  function toggleHint() {
+    var hint = document.getElementById("hint");
+    hint.style.display = (hint.style.display === "none" ? "block" : "none");
+  }
+  let pass;
+  const sol = `<%= problem.tc1o %>
+<%= problem.tc2o %>
+`;
   require.config({
     paths: {
       vs: "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.27.0/min/vs",
@@ -45,11 +88,14 @@
 
     document.getElementById("submitBtn").addEventListener("click", function () {
       var code = editor.getValue();
-      console.log(code);
+      code =
+        code +
+        `
+
+fun(<%= problem.tc1 %>)
+fun(<%= problem.tc2 %>)
+      `;
       var postData = {
-        clientId: "8369fa37b59fde0f91e45dbb91cc0223",
-        clientSecret:
-          "b6299b0b7fe1d90d927037ede19dcf4b902e668271a7ac7b03233f8d5e3e3b7d",
         script: code,
         language: "python3",
       };
@@ -72,8 +118,37 @@
           return response.json();
         })
         .then((data) => {
-          console.log("POST request successful");
-          console.log(data);
+          const box = document.getElementById("out");
+          box.innerText = data.run.output;
+          pass = sol == data.run.output;
+          const resultbox = document.getElementById('result')
+          resultbox.classList.remove('hidden')
+          if (pass){
+            resultbox.classList.add('border-green-500')
+            resultbox.classList.add('bg-green-200')
+          } else {
+            resultbox.classList.add('border-red-500')
+            resultbox.classList.add('bg-red-200')
+          }
+          fetch('/submit-solution', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ problemId: '<%= problem.id %>', pass: pass, points: "<%= problem.points %>" })
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.text();
+  })
+  .then(data => {
+    console.log(data);
+  })
+  .catch(error => {
+    console.error('There was a problem with the POST request:', error.message);
+  });
         })
         .catch((error) => {
           console.error(
@@ -81,7 +156,11 @@
             error.message
           );
         });
+        
     });
+
+    
+
 
     function getDefaultCode(language) {
       switch (language) {
@@ -98,7 +177,12 @@
           return "// Type your Code here...";
       }
     }
+    
   });
+
+// Click "Congratulations!" to play animation
+
+
 </script>
 
 <%- include ("./components/footer.ejs") %>
