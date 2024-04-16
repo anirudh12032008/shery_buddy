@@ -64,6 +64,11 @@ Expected Output:
     var hint = document.getElementById("hint");
     hint.style.display = (hint.style.display === "none" ? "block" : "none");
   }
+function decodeEntities(str) {
+  return String(str).replace(/&#(\d+);/g, function(match, dec) {
+    return String.fromCharCode(dec);
+  });
+}
   let pass;
   const sol = `<%= problem.tc1o %>
 <%= problem.tc2o %>
@@ -92,8 +97,8 @@ Expected Output:
         code +
         `
 
-fun(${unescape('<%= problem.tc1o %>')})
-fun(${unescape('<%= problem.tc2o %>')})
+  fun(${decodeEntities('<%= problem.tc1o %>')})
+  fun(${decodeEntities('<%= problem.tc2o %>')})
       `;
       var postData = {
         script: code,
