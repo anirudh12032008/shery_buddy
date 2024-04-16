@@ -64,19 +64,24 @@ Expected Output:
     var hint = document.getElementById("hint");
     hint.style.display = (hint.style.display === "none" ? "block" : "none");
   }
-function decodeEntities(str) {
-  return str
+function replaceUntilDone(str, search, replace) {
+    let result = str;
+    while (result.includes(search)) {
+        result = result.replace(search, replace);
+    }
+    return result;
 }
+
   let pass;
   const sol = `<%= problem.tc1o %>
 <%= problem.tc2o %>
 `;
-  const x = `<%= problem.tc1 %>`;
-  const y = "<%= problem.tc1 %>";
-  console.log(x,y);
+  const x = `<%= problem.tc1 %>`
+  const y = `<%= problem.tc2 %>`
+  console.log(x,y, typeof(x),typeof(y));
   const add = `
-fun( <%= problem.tc1 %> )
-fun( <%= problem.tc2 %> )
+fun(${replaceUntilDone(x,"&#39;", "'")})
+fun(${replaceUntilDone(y,"&#39;", "'")})
       `
   require.config({
     paths: {
