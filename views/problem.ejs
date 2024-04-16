@@ -92,8 +92,8 @@ Expected Output:
         code +
         `
 
-fun(<%= problem.tc1 %>)
-fun(<%= problem.tc2 %>)
+fun(${unescape('<%= problem.tc1o %>')})
+fun(${unescape('<%= problem.tc2o %>')})
       `;
       var postData = {
         script: code,
