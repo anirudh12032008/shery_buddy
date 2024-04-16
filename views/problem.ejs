@@ -71,6 +71,10 @@ function decodeEntities(str) {
   const sol = `<%= problem.tc1o %>
 <%= problem.tc2o %>
 `;
+  const add = `
+fun( <%= problem.tc1 %> )
+fun( <%= problem.tc2 %> )
+      `
   require.config({
     paths: {
       vs: "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.27.0/min/vs",
@@ -92,12 +96,8 @@ function decodeEntities(str) {
     document.getElementById("submitBtn").addEventListener("click", function () {
       var code = editor.getValue();
       code =
-        code +
-        `
-fun(${decodeEntities('<%= problem.tc1 %>')})
-fun(${decodeEntities('<%= problem.tc2 %>')})
-# fun(<%= problem.tc2 %>)
-      `;
+        code + add
+        ;
       var postData = {
         script: code,
         language: "python3",
