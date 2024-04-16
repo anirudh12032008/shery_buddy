@@ -96,9 +96,8 @@ function decodeEntities(str) {
       code =
         code +
         `
-
-  fun(${decodeEntities('<%= problem.tc1o %>')})
-  fun(${decodeEntities('<%= problem.tc2o %>')})
+fun('<%= problem.tc1o %>')
+fun('<%= problem.tc2o %>')
       `;
       var postData = {
         script: code,
