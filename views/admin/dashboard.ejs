@@ -1,0 +1,15 @@
+<%- include ("../components/header.ejs") %>
+
+    <div class="container mx-auto max-w-lg mt-10">
+        <h1 class="text-3xl font-semibold text-center mb-8">Welcome to the Admin Dashboard</h1>
+        <ul class="space-y-4">
+            <li><a href="/admin/users" class="block px-4 py-2 bg-blue-500 text-white rounded-md text-center hover:bg-blue-600 transition duration-300">Manage Users</a></li>
+            <li><a href="/admin/problems" class="block px-4 py-2 bg-blue-500 text-white rounded-md text-center hover:bg-blue-600 transition duration-300">Manage Problems</a></li>
+            <li><a href="/admin/files" class="block px-4 py-2 bg-blue-500 text-white rounded-md text-center hover:bg-blue-600 transition duration-300">Manage Files</a></li>
+            <li><a href="/register" class="block px-4 py-2 bg-blue-500 text-white rounded-md text-center hover:bg-blue-600 transition duration-300">Create User</a></li>
+            <li><a href="/createprob" class="block px-4 py-2 bg-blue-500 text-white rounded-md text-center hover:bg-blue-600 transition duration-300">Create Problem</a></li>
+            <li><a href="/createfile" class="block px-4 py-2 bg-blue-500 text-white rounded-md text-center hover:bg-blue-600 transition duration-300">Create File</a></li>
+            <!-- Add more links for other admin routes as needed -->
+        </ul>
+    </div>
+<%- include ("../components/footer.ejs") %>

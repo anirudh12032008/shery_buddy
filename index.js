@@ -22,7 +22,9 @@ mongoose.connect(process.env.URL, { useNewUrlParser: true, useUnifiedTopology: t
   .catch(err => console.error('Error connecting to MongoDB:', err));    
 
 app.use(bodyParser.json());
-app.use(session({ secret: 'ani', resave: false, saveUninitialized: true }));
+app.use(session({ secret: 'ani', resave: false, saveUninitialized: true,cookie: {
+  maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days in milliseconds
+} }));
 
 
 // gemini
@@ -253,6 +255,64 @@ app.get('/profile', isLogin, (req, res) => {
 app.get('/leaderboards', isLogin, (req, res) => {
   res.render('leaderboards', { user: req.session.user , log: 1});
 });
+
+// Middleware to check if the user is an admin
+const isAdmin = (req, res, next) => {
+  if (!req.session.user || (req.session.user.username !== 'admin')) {
+    return res.redirect('/login');
+  }
+  next();
+};
+
+
+// Admin panel route
+app.get('/admin', isAdmin, async (req, res) => {
+  // Render the admin dashboard view
+  res.render('admin/dashboard', { user: req.session.user, log: 1 });
+});
+
+// Admin user panel page
+app.get('/admin/users', isAdmin, async (req, res) => {
+  try {
+      const batches = await User.distinct("batches"); // Retrieve all unique batches
+      res.render('admin/users', { log: req?.session?.user ? 1 : 0, batches: batches }); // Pass batches to the template
+  } catch (error) {
+      console.error('Error fetching batches:', error);
+      res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Render batch page
+app.get('/admin/users/:batch', isAdmin, async (req, res) => {
+  try {
+      const batch = req.params.batch;
+      const users = await User.find({ batches: batch }).sort({ points: -1 });
+      res.render('admin/batch', { batch: batch, users: users });
+  } catch (error) {
+      console.error('Error rendering batch page:', error);
+      res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
+// Problem management routes
+app.get('/admin/problems', isAdmin, async (req, res) => {
+  // Fetch all problems from the database
+  const problems = await Prob.find({});
+  // Render the problems management view with the list of problems
+  res.render('admin/problems', { problems });
+});
+
+// File management routes
+app.get('/admin/files', isAdmin, async (req, res) => {
+  // Fetch all files from the database
+  const files = await File.find({});
+  // Render the files management view with the list of files
+  res.render('admin/files', { files });
+});
+
+
+
 
 
 // POST Routes

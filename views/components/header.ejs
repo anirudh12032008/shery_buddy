@@ -16,12 +16,14 @@
 
 </head>
 <body>
+    <% log = typeof log !== 'undefined' ? log : false %>
+
     <nav class="bg-[#d3f3ec]">
         <div class="px-4 py-3 flex items-center justify-between w-full shadow-md">
             <div class="w-10 h-10 ml-4">
                 <a href="/"><img src="../images/icon.png" alt="logo"></a>
             </div>
-            <% if (log) { %>
+            <% if (log ) { %>
                 <!-- logged in user only -->
                 <div class=" flex pl-5 flex-row justify-between w-full">
                     <div class="flex flex-row gap-4">

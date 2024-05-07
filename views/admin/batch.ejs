@@ -1,0 +1,21 @@
+<%- include ("../components/header.ejs") %>
+
+<div class="container mx-auto">
+    <h1 class="text-3xl font-bold mb-4">Batch: <%= batch %></h1>
+    <div id="userDetails" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <% users.forEach((user, index) => { %>
+            <a href="/user/<%= user.username %>" class="user-card">
+                <div class="bg-white p-4 rounded-md shadow-md cursor-pointer flex flex-col">
+                    <div class="mb-2">
+                        <span class="bg-blue-500 text-white px-2 py-1 rounded-full mr-2">#<%= index + 1 %></span>
+                        <p class="font-bold text-lg mb-1">Name: <%= user.fullname %></p>
+                        <p class="text-gray-700 mb-1">Username: <%= user.username %></p>
+                        <p class="text-gray-700">Points: <%= user.points %></p>
+                    </div>
+                </div>
+            </a>
+        <% }); %>
+    </div>
+</div>
+
+<%- include ("../components/footer.ejs") %>

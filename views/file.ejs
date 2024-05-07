@@ -45,7 +45,7 @@
     }
     const codeElement = document.getElementById('code');
     const codeLines = codeElement.innerText.split('\n');
-    const numberedCode = codeLines.map((line, index) => `<span class="text-gray-500 mr-4 ml-1">${index + 1}</span>${line}`).join('\n');
+    const numberedCode = codeLines.map((line, index) => `<span class="text-gray-500 mr-4 ml-1"></span>${line}`).join('\n');
     codeElement.innerHTML = numberedCode;
 </script>
 
